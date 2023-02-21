@@ -94,6 +94,7 @@ export class AppComponent implements OnInit {
 
   indexes:any; 
   expandFlag: boolean = false; 
+  public fieldName;
 
   public items: MenuItemModel[] = [
     {
@@ -449,6 +450,10 @@ export class AppComponent implements OnInit {
   getData(){
     let firstBill = new BillOfMaterialsDTO;
     let secondBill = new BillOfMaterialsDTO;
+    let bill3 = new BillOfMaterialsDTO;
+    let bill4 = new BillOfMaterialsDTO;
+    let bill5 = new BillOfMaterialsDTO;
+    let bill6 = new BillOfMaterialsDTO;
 
     firstBill.billOfMaterialsId = 1;
     firstBill.constructionSiteId = 7;
@@ -474,6 +479,54 @@ export class AppComponent implements OnInit {
     secondBill.total = 9;
 
     this.dataBill.push(secondBill);
+
+    bill3.billOfMaterialsId = 3;
+    bill3.constructionSiteId = 7;
+    bill3.progressive = 3;
+    bill3.code = "01.03";
+    bill3.description = "description of bill 3";
+    bill3.measureUnit = "m2";
+    bill3.price = 3;
+    bill3.qty = 3;
+    bill3.total = 9;
+
+    this.dataBill.push(bill3);
+
+    bill4.billOfMaterialsId = 4;
+    bill4.constructionSiteId = 7;
+    bill4.progressive = 4;
+    bill4.code = "01.04";
+    bill4.description = "description of bill 4";
+    bill4.measureUnit = "m2";
+    bill4.price = 3;
+    bill4.qty = 3;
+    bill4.total = 9;
+
+    this.dataBill.push(bill4);
+
+    bill5.billOfMaterialsId = 5;
+    bill5.constructionSiteId = 7;
+    bill5.progressive = 2;
+    bill5.code = "01.05";
+    bill5.description = "description of bill 5";
+    bill5.measureUnit = "m2";
+    bill5.price = 3;
+    bill5.qty = 3;
+    bill5.total = 9;
+
+    this.dataBill.push(bill5);
+
+    bill6.billOfMaterialsId = 6;
+    bill6.constructionSiteId = 7;
+    bill6.progressive = 6;
+    bill6.code = "01.06";
+    bill6.description = "description of bill 6";
+    bill6.measureUnit = "m2";
+    bill6.price = 3;
+    bill6.qty = 3;
+    bill6.total = 9;
+
+    this.dataBill.push(bill6);
 
     let firstMeasures = new BillOfMaterialsCostAnalysisMeauseresDTO;
     let secondMeasures = new BillOfMaterialsCostAnalysisMeauseresDTO;
@@ -543,7 +596,16 @@ export class AppComponent implements OnInit {
     } 
     //this.grid.autoFitColumns(['progressive', 'measureUnit', 'qty', 'price','total']);
   }
-  public itemBeforeEvent (args: MenuEventArgs) {
-    
+  public itemBeforeEvent (args: MenuEventArgs) {    
+  }
+  actionComplete(e) {
+    if (e.requestType === "beginEdit") {
+        // focus the column
+        e.form.elements[this.grid.element.getAttribute("id") + this.fieldName].focus();
+    }
+  }
+  recordDoubleClick(e) {
+      var clickedColumnIndex = e.cell.getAttribute("data-colindex");
+      //this.fieldName = this.grid.columnModel[parseInt(clickedColumnIndex)].field;
   }
 }

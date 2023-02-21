@@ -15,7 +15,7 @@
   </e-items>
 </ejs-toolbar>
 
-<ejs-grid #grid  
+<ejs-grid #grid height="150"
         allowTextWrap='true'                                     
         [dataSource]='myData.billOfMaterialList'                                                                                                         
         [childGrid]='childGrid'
@@ -26,7 +26,9 @@
         (queryCellInfo)='customiseCell($event)'
         (rowDrop)="rowDrop($event)"   
         (detailDataBound)="detailDataBound($event)"                                       
-        (dataBound)='dataBound($event)'>                                    
+        (dataBound)='dataBound($event)'
+        (actionComplete)='actionComplete($event)'
+        (recordDoubleClick)='recordDoubleClick($event)'>                                    
   <e-columns>
       <e-column field='progressive' defaultValue= '{{bill?.billOfMaterialList.length + 1}}' headerText='Prog' textAlign='Left'>
           <ng-template #editTemplate let-data>
