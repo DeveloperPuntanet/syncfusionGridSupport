@@ -1,0 +1,150 @@
+
+
+<ejs-toolbar (clicked)='clickHandler($event)' style="margin-top: 150px;">
+  <e-items>
+      <e-item>
+          <ng-template #template>
+              <button ejs-dropdownbutton [items]='items' 
+                                         content='Aggiungi'
+                                         iconCss='e-icons e-menu'                                                                                                                                                                   
+                                         (beforeItemRender)='itemBeforeEvent($event)'
+                                         (select)='onNewRecorsSelect($event)'>
+              </button>
+           </ng-template>
+      </e-item>      
+  </e-items>
+</ejs-toolbar>
+
+<ejs-grid #grid  
+        allowTextWrap='true'                                     
+        [dataSource]='myData.billOfMaterialList'                                                                                                         
+        [childGrid]='childGrid'
+        [editSettings]='editSettings'                                                                                                                                                                                                                                     
+        [textWrapSettings]='wrapSettings'
+        (actionBegin)='actionBegin($event)'                                      
+        (rowDataBound)="rowDataBound($event)"
+        (queryCellInfo)='customiseCell($event)'
+        (rowDrop)="rowDrop($event)"   
+        (detailDataBound)="detailDataBound($event)"                                       
+        (dataBound)='dataBound($event)'>                                    
+  <e-columns>
+      <e-column field='progressive' defaultValue= '{{bill?.billOfMaterialList.length + 1}}' headerText='Prog' textAlign='Left'>
+          <ng-template #editTemplate let-data>
+              <mat-form-field appearance="outline">                                        
+                  <input type="number" min="1" max="{{bill?.billOfMaterialList.length}}" [(ngModel)]='billProgressive' matInput>                                
+              </mat-form-field>
+          </ng-template>          
+      </e-column>
+      <e-column field='code' headerText='Codice' [validationRules]='codeValidationRules'>
+          <ng-template #editTemplate let-data>
+              <div *ngIf="showEditField==true">
+                  <mat-form-field  appearance="outline">
+                      <mat-label>Code</mat-label>
+                      <input [(ngModel)]='billCode' matInput>                                
+                  </mat-form-field>
+              </div>                                            
+          </ng-template>
+      </e-column>
+      <e-column field='description' headerText='Descrizione' textAlign='Left' clipMode='Ellipsis' [disableHtmlEncode]='false'>
+        <ng-template #editTemplate let-data>
+          <mat-form-field  appearance="outline" style="margin-top:5px; margin-bottom:5px;"  class="edit-field">
+              <mat-label>Description</mat-label>
+              <textarea type="text" [(ngModel)]='billDescription' matInput tabindex="2"></textarea>
+          </mat-form-field>                                  
+      </ng-template>
+      </e-column>
+      <e-column field='measureUnit' headerText='UM' textAlign='Left'>
+          <ng-template #editTemplate let-data>
+              <div *ngIf="showEditField==true">                                                
+                  <mat-form-field appearance="outline">
+                      <mat-label>UM</mat-label>
+                      <input  matInput>
+                  </mat-form-field>                                                                                                                                                                                         
+              </div>                                                                                        
+          </ng-template>   
+      </e-column>                           
+      <e-column field='qty' headerText='Qtà' textAlign='Right'>
+          <ng-template #editTemplate let-data>
+              <div *ngIf="showEditField==true">                  
+                <mat-form-field appearance="outline">
+                    <mat-label>Qty</mat-label>
+                    <input type="number" [(ngModel)]='billQty' (change)="onQtyPriceChange($event)" matInput>                                
+                </mat-form-field>                                                   
+              </div>                                            
+          </ng-template>
+      </e-column>                                    
+      <e-column field='price' headerText='Prezzo' textAlign='Right' format='C2'>
+          <ng-template #editTemplate let-data>
+              <div *ngIf="showEditField==true">                  
+                  <mat-form-field appearance="outline">
+                      <mat-label>Price</mat-label>
+                      <input type="number" (change)="onQtyPriceChange($event)" [(ngModel)]='billPrice' matInput>                                
+                  </mat-form-field>                                      
+              </div>                                            
+          </ng-template>                                        
+      </e-column>   
+      <e-column field='total' [allowEditing]= 'false' headerText='Totale' textAlign='Right' format='C2'>
+          <ng-template #editTemplate let-data>
+              <div *ngIf="showEditField==true">                  
+                <mat-form-field appearance="outline">
+                    <mat-label>Total</mat-label>
+                    <input type="number" disabled [(ngModel)]='billTotal' matInput>                                
+                </mat-form-field>                  
+              </div>                                            
+          </ng-template>   
+      </e-column>         
+      <e-column headerText='' [commands]='commands'></e-column>                                                               
+  </e-columns>                                                                                   
+</ejs-grid>
+                            
+
+
+<!-- Template dei campi misure quando si entra in modifica -->
+<ng-template #editMeasureDescription let-data> 
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px grid" style="padding-top: 16px;">
+        <mat-form-field fxFlex="85">
+            <mat-label>Description</mat-label>
+            <input name="description" id="measuredesc-id" (change)="onMeasureDetailChange()" [(ngModel)]="measureDesc" matInput>      
+          </mat-form-field>
+      
+          <div fxFlex="15">
+              <mat-checkbox [(ngModel)]="showFormula" (change)="onCheckFormulaChange($event)" style="display: flex;align-self: left; margin-top: 15px;margin-left: 15px;"> Formula</mat-checkbox>
+          </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px grid" *ngIf="showFormula">
+        <mat-form-field fxFlex="85">
+            <mat-label>Formula</mat-label>
+            <input name="measure" [(ngModel)]="measureFormula" (change)="onFormulaChange()" matInput>      
+        </mat-form-field>
+    </div>
+
+    
+
+</ng-template>
+<ng-template #editMeasureQty let-data> 
+    <mat-form-field fxFlex="100" *ngIf="!showFormula" style="padding-top: 16px;">
+      <input name="qty"  id="measureqty-id" (change)="onMeasureDetailChange()" [(ngModel)]="measureQty" matInput>
+    </mat-form-field>
+</ng-template>
+<ng-template #editMeasureWidth let-data> 
+    <mat-form-field fxFlex="100" *ngIf="!showFormula" style="padding-top: 16px;">
+      <input name="width" id="measurewidthy-id" (change)="onMeasureDetailChange()" [(ngModel)]="measureWidth" matInput>
+    </mat-form-field>
+</ng-template>
+<ng-template #editMeasureLength let-data> 
+    <mat-form-field fxFlex="100" *ngIf="!showFormula" style="padding-top: 16px;">
+      <input name="length"  id="measurelength-id" (change)="onMeasureDetailChange()" [(ngModel)]="measureLength" matInput>
+    </mat-form-field>
+</ng-template>
+<ng-template #editMeasureHeight let-data> 
+    <mat-form-field fxFlex="100"*ngIf="!showFormula" style="padding-top: 16px;">
+      <input name="height"  id="measureheight-id" (change)="onMeasureDetailChange()" [(ngModel)]="measureHeight" matInput>
+    </mat-form-field>
+</ng-template>
+<ng-template #editMeasureTotalMeasure let-data> 
+    <mat-form-field fxFlex="100" style="padding-top: 16px;">
+      <input name="totalm" id="measuretotalmeasure-id" disabled [(ngModel)]="measureTotalMeasure" matInput>
+    </mat-form-field>
+</ng-template>
+
+<router-outlet></router-outlet>
