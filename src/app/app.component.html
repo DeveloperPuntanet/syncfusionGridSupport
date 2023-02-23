@@ -15,13 +15,15 @@
   </e-items>
 </ejs-toolbar>
 
-<ejs-grid #grid height="150"
+<ejs-grid #grid
         allowTextWrap='true'                                     
         [dataSource]='myData.billOfMaterialList'                                                                                                         
         [childGrid]='childGrid'
         [editSettings]='editSettings'                                                                                                                                                                                                                                     
         [textWrapSettings]='wrapSettings'
-        (actionBegin)='actionBegin($event)'                                      
+        (actionBegin)='actionBegin($event)' 
+        (actionComplete)="actionComplete($event)"
+        (recordDoubleClick)="recordDoubleClick($event)"                          
         (rowDataBound)="rowDataBound($event)"
         (queryCellInfo)='customiseCell($event)'
         (rowDrop)="rowDrop($event)"   
@@ -33,7 +35,7 @@
       <e-column field='progressive' defaultValue= '{{bill?.billOfMaterialList.length + 1}}' headerText='Prog' textAlign='Left'>
           <ng-template #editTemplate let-data>
               <mat-form-field appearance="outline">                                        
-                  <input type="number" min="1" max="{{bill?.billOfMaterialList.length}}" [(ngModel)]='billProgressive' matInput>                                
+                  <input type="number" id="progressive" min="1" max="{{bill?.billOfMaterialList.length}}" [(ngModel)]='billProgressive' matInput>                                
               </mat-form-field>
           </ng-template>          
       </e-column>
@@ -42,7 +44,7 @@
               <div *ngIf="showEditField==true">
                   <mat-form-field  appearance="outline">
                       <mat-label>Code</mat-label>
-                      <input [(ngModel)]='billCode' matInput>                                
+                      <input [(ngModel)]='billCode' id="code" matInput>                                
                   </mat-form-field>
               </div>                                            
           </ng-template>
@@ -51,17 +53,18 @@
         <ng-template #editTemplate let-data>
           <mat-form-field  appearance="outline" style="margin-top:5px; margin-bottom:5px;"  class="edit-field">
               <mat-label>Description</mat-label>
-              <textarea type="text" [(ngModel)]='billDescription' matInput tabindex="2"></textarea>
+              <textarea type="text" [(ngModel)]='billDescription' id="description" matInput tabindex="2"></textarea>
           </mat-form-field>                                  
       </ng-template>
       </e-column>
       <e-column field='measureUnit' headerText='UM' textAlign='Left'>
           <ng-template #editTemplate let-data>
-              <div *ngIf="showEditField==true">                                                
-                  <mat-form-field appearance="outline">
+              <div *ngIf="showEditField==true">  
+                  <app-my-custom-input id="measureUnit"></app-my-custom-input>                                              
+                  <!--<mat-form-field appearance="outline">
                       <mat-label>UM</mat-label>
                       <input  matInput>
-                  </mat-form-field>                                                                                                                                                                                         
+                  </mat-form-field>-->
               </div>                                                                                        
           </ng-template>   
       </e-column>                           
@@ -70,7 +73,7 @@
               <div *ngIf="showEditField==true">                  
                 <mat-form-field appearance="outline">
                     <mat-label>Qty</mat-label>
-                    <input type="number" [(ngModel)]='billQty' (change)="onQtyPriceChange($event)" matInput>                                
+                    <input type="number" [(ngModel)]='billQty' id="qty" (change)="onQtyPriceChange($event)" matInput>                                
                 </mat-form-field>                                                   
               </div>                                            
           </ng-template>
@@ -80,7 +83,7 @@
               <div *ngIf="showEditField==true">                  
                   <mat-form-field appearance="outline">
                       <mat-label>Price</mat-label>
-                      <input type="number" (change)="onQtyPriceChange($event)" [(ngModel)]='billPrice' matInput>                                
+                      <input type="number" (change)="onQtyPriceChange($event)" id="price" [(ngModel)]='billPrice' matInput>                                
                   </mat-form-field>                                      
               </div>                                            
           </ng-template>                                        
@@ -90,7 +93,7 @@
               <div *ngIf="showEditField==true">                  
                 <mat-form-field appearance="outline">
                     <mat-label>Total</mat-label>
-                    <input type="number" disabled [(ngModel)]='billTotal' matInput>                                
+                    <input type="number" disabled [(ngModel)]='billTotal' id="total" matInput>                                
                 </mat-form-field>                  
               </div>                                            
           </ng-template>   

@@ -600,12 +600,18 @@ export class AppComponent implements OnInit {
   }
   actionComplete(e) {
     if (e.requestType === "beginEdit") {
-        // focus the column
-        e.form.elements[this.grid.element.getAttribute("id") + this.fieldName].focus();
+      setTimeout(()=>{
+         e.form.elements[this.fieldName].focus();
+      })
+    }
+    if (e.requestType == "add" ) {
+      setTimeout(()=>{
+         e.form.elements["progressive"].focus();
+      })
     }
   }
   recordDoubleClick(e) {
-      var clickedColumnIndex = e.cell.getAttribute("data-colindex");
-      //this.fieldName = this.grid.columnModel[parseInt(clickedColumnIndex)].field;
+    var clickedColumnIndex = +e.cell.getAttribute("data-colindex");
+    this.fieldName = this.grid.getColumnByIndex(clickedColumnIndex).field;
   }
 }

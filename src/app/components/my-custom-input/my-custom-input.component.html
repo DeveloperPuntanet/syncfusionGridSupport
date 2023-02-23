@@ -1,0 +1,15 @@
+<mat-form-field fxFlex="100">
+    <mat-label>UM</mat-label>
+    <input [formControl]="inputCtrl"  [matAutocomplete]="autoInput" (change)="onChange($event)" matInput>    
+    <mat-autocomplete #autoInput="matAutocomplete"
+        (optionSelected)="choosedItem($event)">
+        <div>
+            <mat-option>
+                <span>Pripro</span>                                             
+            </mat-option>
+            <mat-option>
+                <span>Ciao</span>                                             
+            </mat-option>
+        </div>
+    </mat-autocomplete>
+</mat-form-field>

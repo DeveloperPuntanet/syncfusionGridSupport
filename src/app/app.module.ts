@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconModule } from '@visurel/iconify-angular';
-import { AggregateService, ColumnChooserService, CommandColumnService, DetailRowService, EditService, FilterService, GridModule, GroupService, PageService, ReorderService, ResizeService, RowDDService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
+import { AggregateService, ColumnChooserService, CommandColumnService, DetailRowService, EditService, FilterService, GridModule, GroupService, PageService, ReorderService, ResizeService, RowDDService, SelectionService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { CommonModule } from '@angular/common';
 import { ToolbarService as RichTextToolbarService, HtmlEditorService, LinkService, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
@@ -15,10 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatOptionModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http'
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MyCustomInputModule } from './components/my-custom-input/my-custom-input.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,    
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MyCustomInputModule
   ],
   providers: [
     PageService,
@@ -55,6 +57,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RichTextToolbarService,
     AggregateService,
     DetailRowService,
+    ResizeService,
+    SelectionService
   ],
   bootstrap: [AppComponent]
 })
