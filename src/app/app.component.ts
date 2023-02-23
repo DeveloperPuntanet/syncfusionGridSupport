@@ -508,7 +508,7 @@ export class AppComponent implements OnInit {
     bill5.constructionSiteId = 7;
     bill5.progressive = 2;
     bill5.code = "01.05";
-    bill5.description = "description of bill 5";
+    bill5.description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
     bill5.measureUnit = "m2";
     bill5.price = 3;
     bill5.qty = 3;
@@ -594,7 +594,7 @@ export class AppComponent implements OnInit {
       this.indexes.forEach(ind => this.grid.detailRowModule.expand(ind)); 
       this.indexes = []; 
     } 
-    //this.grid.autoFitColumns(['progressive', 'measureUnit', 'qty', 'price','total']);
+    this.grid.autoFitColumns(['progressive', 'measureUnit', 'qty', 'price','total']);
   }
   public itemBeforeEvent (args: MenuEventArgs) {    
   }
