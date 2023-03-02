@@ -31,7 +31,8 @@
         (detailDataBound)="detailDataBound($event)"                                       
         (dataBound)='dataBound($event)'
         (actionComplete)='actionComplete($event)'
-        (recordDoubleClick)='recordDoubleClick($event)'>                                    
+        (recordDoubleClick)='recordDoubleClick($event)'
+        [resizeSettings]="{mode:'Auto'}">                                    
   <e-columns>
       <e-column field='progressive' defaultValue= '{{bill?.billOfMaterialList.length + 1}}' headerText='Prog' textAlign='Left'>
           <ng-template #editTemplate let-data>
